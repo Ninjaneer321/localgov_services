@@ -104,10 +104,6 @@ class ServiceStatusMessageVisibilityTest extends BrowserTestBase {
       ],
     ]);
 
-    // This is only necessary in tests.
-    // Block visibility is fine when doing this manually.
-    drupal_flush_all_caches();
-
     // Check visibility on homepage.
     $this->drupalGet('<front>');
     $this->assertSession()->elementExists('css', '.service-status-messages');
@@ -125,6 +121,10 @@ class ServiceStatusMessageVisibilityTest extends BrowserTestBase {
     $this->drupalGet($landing_path);
     $this->assertSession()->elementTextContains('css', '.service-status-messages', $summary);
     $this->assertSession()->elementTextNotContains('css', '.service-status-messages', $summary2);
+
+    // Check visibility on homepage.
+    $this->drupalGet('<front>');
+    $this->assertSession()->elementNotExists('css', '.service-status-messages');
   }
 
 }

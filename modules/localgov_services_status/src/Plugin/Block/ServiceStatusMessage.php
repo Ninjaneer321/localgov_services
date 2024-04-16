@@ -137,9 +137,9 @@ class ServiceStatusMessage extends BlockBase implements ContainerFactoryPluginIn
    */
   protected function blockAccess(AccountInterface $account) {
     if (empty($this->statusNodes)) {
-      return AccessResult::neutral();
+      return AccessResult::neutral()->addCacheableDependency($this);
     }
-    return AccessResult::allowed();
+    return AccessResult::allowed()->addCacheableDependency($this);
   }
 
   /**
@@ -154,7 +154,7 @@ class ServiceStatusMessage extends BlockBase implements ContainerFactoryPluginIn
    */
   public function getCacheTags() {
     // Invalidate cache on changes to localgov_services_status nodes.
-    return Cache::mergeTags(parent::getCacheTags(), $this->cacheTags);
+    return Cache::mergeTags(parent::getCacheTags(), $this->cacheTags, ['node_list:localgov_services_status']);
   }
 
 }
